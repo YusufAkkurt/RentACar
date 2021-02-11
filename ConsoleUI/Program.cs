@@ -10,65 +10,43 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarTest();
-            // NewMethod();
-            // ColorTest();
-            // CarDetailsTest();
-        }
+            // UserTest();
+            // CustomerTest();
 
-        private static void CarDetailsTest()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-            foreach (var car in carManager.GetCarDetails().Data)
+            var rental = rentalManager.Add(new Rental 
             {
-                Console.WriteLine("{0} / {1} / {2} / {3}",
-                        car.Description,
-                        car.BrandName,
-                        car.ColorName,
-                        car.DailyPrice
-                    );
-            }
-        }
-
-        private static void ColorTest()
-        {
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-
-            colorManager.Delete(new Color { Id = 1003, Name = "Watermelon Green" });
-
-            foreach (var color in colorManager.GetAll().Data)
-            {
-                Console.WriteLine(color.Name);
-            }
-        }
-
-        private static void NewMethod()
-        {
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-
-            brandManager.Delete(new Brand { Id = 1003, Name = "Renault" });
-
-            foreach (var brand in brandManager.GetAll().Data)
-            {
-                Console.WriteLine(brand.Name);
-            }
-        }
-
-        private static void CarTest()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
-
-            var addedCar = carManager.Add(new Car
-            {
-                BrandId = 6,
-                ColorId = 4,
-                ModelYear = 2018,
-                DailyPrice = 13,
-                Description = "Toledo"
+                CarId = 1,
+                CustomerId = 2,
+                RentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
             });
 
-            Console.WriteLine(addedCar.Message);
+            Console.WriteLine(rental.Message);
+        }
+
+        private static void CustomerTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var listCustomers = customerManager.GetAll();
+
+            foreach (var customer in listCustomers.Data)
+            {
+                Console.WriteLine(customer.CompanyName);
+            }
+        }
+
+        private static void UserTest()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var listUsers = userManager.GetAll();
+
+            foreach (var user in listUsers.Data)
+            {
+                Console.WriteLine(user.FirstName);
+            }
         }
     }
 }
