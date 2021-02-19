@@ -23,13 +23,13 @@ namespace Business.Concrete
         {
             ValidationTool.Validate(new RentalValidator(), rental);
 
-            var rentalsReturnDate = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+            var rentalledCars = _rentalDal.GetAll(r => r.CarId == rental.CarId);
 
-            if (rentalsReturnDate.Count > 0)
+            if (rentalledCars.Count > 0)
             {
-                foreach (var rentalReturnDate in rentalsReturnDate)
+                foreach (var rentalledCar in rentalledCars)
                 {
-                    if (rentalReturnDate.ReturnDate == null)
+                    if (rentalledCar.ReturnDate == null)
                     {
                         return new ErrorResult(Messages.RentalReturnDateIsNull);
                     }
