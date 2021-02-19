@@ -1,10 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,10 +25,7 @@ namespace Business.Concrete
 
         public IResult Add(Car car)
         {
-            if (!(car.Description.Length > 1) || !(car.DailyPrice > 0))
-            {
-                return new ErrorResult(Messages.InvalidRequest);
-            }
+            ValidationTool.Validate(new CarValidator(), car);
 
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
@@ -57,10 +57,7 @@ namespace Business.Concrete
 
         public IResult Update(Car car)
         {
-            if (!(car.Description.Length > 1) || !(car.DailyPrice > 0))
-            {
-                return new ErrorResult(Messages.InvalidRequest);
-            }
+            ValidationTool.Validate(new CarValidator(), car);
 
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
@@ -68,6 +65,8 @@ namespace Business.Concrete
 
         public IResult Delete(Car car)
         {
+            ValidationTool.Validate(new CarValidator(), car);
+
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
