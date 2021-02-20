@@ -7,6 +7,7 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -29,7 +30,7 @@ namespace Business.Concrete
             {
                 foreach (var rentalledCar in rentalledCars)
                 {
-                    if (rentalledCar.ReturnDate == null)
+                    if (rentalledCar.ReturnDate == null || rentalledCar.ReturnDate > DateTime.Now)
                     {
                         return new ErrorResult(Messages.RentalReturnDateIsNull);
                     }
