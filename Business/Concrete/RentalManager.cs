@@ -7,6 +7,7 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 
@@ -58,6 +59,12 @@ namespace Business.Concrete
         {
             var getById = _rentalDal.Get(u => u.Id == rentalId);
             return new SuccessDataResult<Rental>(getById);
+        }
+
+        public IDataResult<List<RentDetailDto>> GetRentDetails()
+        {
+            var getRentalDetails = _rentalDal.GetRentDetils();
+            return new SuccessDataResult<List<RentDetailDto>>(getRentalDetails);
         }
 
         [ValidationAspect(typeof(RentalValidator))]
