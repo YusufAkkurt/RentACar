@@ -3,6 +3,7 @@ using DataAccess.Concrete.EntitiyFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
+using System.IO;
 
 namespace ConsoleUI
 {
@@ -12,10 +13,14 @@ namespace ConsoleUI
         {
             // UserTest();
             // CustomerTest();
+            RentalTest();
+        }
 
+        private static void RentalTest()
+        {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-            var rental = rentalManager.Add(new Rental 
+            var rental = rentalManager.Add(new Rental
             {
                 CarId = 1,
                 CustomerId = 2,

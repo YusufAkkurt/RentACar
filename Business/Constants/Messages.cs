@@ -32,5 +32,10 @@ namespace Business.Constants
         public static string RentalReturnDateIsNull = "Araba henüz teslim edilmemiş";
 
         public static string InvalidRequest = "Lütfen bilgileri kontrol edip, tekrar deneyin";
+        
+        public static string CarImageAdded = "Araba resmi ekleme işlemi başarılı";
+        public static string CarImageDeleted = "Araba resmi silme işlemi başarılı";
+        public static string CarImageUpdated = "Araba resmi güncelleme işlemi başarılı";
+        public static string CarLimitExceded = "Araba'nın eklebilecek resim limitine ulaşıldı";
     }
 }
