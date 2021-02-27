@@ -10,6 +10,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Concrete
 {
@@ -25,18 +26,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            var rentalledCars = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+            var rentalledCars = _rentalDal.GetAll(
+                r => r.CarId == rental.CarId && (
+                r.ReturnDate == null || 
+                r.ReturnDate > DateTime.Now)).Any();
 
-            if (rentalledCars.Count > 0)
-            {
-                foreach (var rentalledCar in rentalledCars)
-                {
-                    if (rentalledCar.ReturnDate == null || rentalledCar.ReturnDate > DateTime.Now)
-                    {
-                        return new ErrorResult(Messages.RentalReturnDateIsNull);
-                    }
-                }
-            }
+            if (rentalledCars)
+                return new ErrorResult(Messages.CarIsStillRentalled);
 
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
