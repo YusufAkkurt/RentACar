@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -37,5 +38,6 @@ namespace Business.Constants
         public static string CarImageDeleted = "Araba resmi silme işlemi başarılı";
         public static string CarImageUpdated = "Araba resmi güncelleme işlemi başarılı";
         public static string CarLimitExceded = "Araba'nın eklebilecek resim limitine ulaşıldı";
+        public static string AuthorizationDenied = "Yetkiniz yok";
     }
 }
