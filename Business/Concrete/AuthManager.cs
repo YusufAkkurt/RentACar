@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -10,8 +11,8 @@ namespace Business.Concrete
 {
     public class AuthManager : IAuthService
     {
-        private IUserService _userService;
-        private ITokenHelper _tokenHelper;
+        private readonly IUserService _userService;
+        private readonly ITokenHelper _tokenHelper;
 
         public AuthManager(IUserService userService, ITokenHelper tokenHelper)
         {
@@ -35,7 +36,7 @@ namespace Business.Concrete
             };
 
             _userService.Add(user);
-            return new SuccessDataResult<User>(user, "Kayıt olundu");
+            return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
@@ -43,22 +44,22 @@ namespace Business.Concrete
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
             if (userToCheck == null)
             {
-                return new ErrorDataResult<User>("Kullanıcı bulunamadı");
+                return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
             {
-                return new ErrorDataResult<User>("Parola hatası");
+                return new ErrorDataResult<User>(Messages.PasswordError);
             }
 
-            return new SuccessDataResult<User>(userToCheck.Data, "Başarılı giriş");
+            return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
         }
 
         public IResult UserExists(string email)
         {
             if (_userService.GetByMail(email) != null)
             {
-                return new ErrorResult("Kullanıcı hatası");
+                return new ErrorResult(Messages.UserAlreadyExists);
             }
 
             return new SuccessResult();
@@ -69,7 +70,7 @@ namespace Business.Concrete
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims.Data);
 
-            return new SuccessDataResult<AccessToken>(accessToken, "Token oluşturuldu");
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }
 }
