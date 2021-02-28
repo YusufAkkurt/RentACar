@@ -45,6 +45,18 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(getById);
         }
 
+        public IDataResult<User> GetByMail(string email)
+        {
+            var getByMail = _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(getByMail);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            var getClaims = _userDal.GetClaims(user);
+            return new SuccessDataResult<List<OperationClaim>>(getClaims);
+        }
+
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
