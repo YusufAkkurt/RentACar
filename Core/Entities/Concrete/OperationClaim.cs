@@ -1,8 +1,8 @@
 ﻿using Core.Entities.Abstract;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete
 {
-    public class Color : IEntity
+    public class OperationClaim : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
