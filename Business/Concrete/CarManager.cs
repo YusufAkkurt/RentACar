@@ -35,6 +35,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(getById);
         }
 
+        [SecuredOperation("product.add,admin")]
         public IDataResult<List<Car>> GetAll()
         {
             var getAll = _carDal.GetAll();
