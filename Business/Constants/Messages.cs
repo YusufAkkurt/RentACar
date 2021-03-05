@@ -10,6 +10,7 @@ namespace Business.Constants
         public static string CarAdded = "Araba ekleme işlemi başarılı";
         public static string CarDeleted = "Araba silme işlemi başarılı";
         public static string CarUpdated = "Araba güncelleme işlemi başarılı";
+        public static string CarCouldntBeUpdated = "Araba'nın günlük fiyatı 80'den yukarı olmalıdır";
 
         public static string BrandAdded = "Marka ekleme işlemi başarılı";
         public static string BrandDeleted = "Marka silme işlemi başarılı";

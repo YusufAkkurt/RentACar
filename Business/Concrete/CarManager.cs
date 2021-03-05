@@ -3,12 +3,14 @@ using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -22,13 +24,25 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        [SecuredOperation("product.add,admin")]
+        // [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
+        }
+
+        [ValidationAspect(typeof(CarValidator))]
+        [TransactionScopeAspect]
+        public IResult UpdateTransactionalOperation(Car car)
+        {
+            _carDal.Update(car);
+            if (car.DailyPrice < 80)
+                throw new Exception(Messages.CarCouldntBeUpdated);
+
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
 
         public IDataResult<Car> GetById(int carId)
