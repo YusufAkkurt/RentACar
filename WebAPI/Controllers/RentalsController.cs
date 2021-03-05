@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _rentalService.GetAll();
+            var result = _rentalService.GetRentDetails();
 
             if (!result.Success)
                 return BadRequest(result);
@@ -30,17 +30,6 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int id)
         {
             var result = _rentalService.GetById(id);
-
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
-        [HttpGet("withdetails")]
-        public IActionResult GetRentDetails()
-        {
-            var result = _rentalService.GetRentDetails();
 
             if (!result.Success)
                 return BadRequest(result);

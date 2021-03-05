@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -56,13 +57,16 @@ namespace Business.Concrete
 
         public IDataResult<Rental> GetById(int rentalId)
         {
+            System.Threading.Thread.Sleep(2000);
             var getById = _rentalDal.Get(u => u.Id == rentalId);
             return new SuccessDataResult<Rental>(getById);
         }
 
         [CacheAspect]
+        [PerformanceAspect(3)]
         public IDataResult<List<RentDetailDto>> GetRentDetails()
         {
+            System.Threading.Thread.Sleep(3000);
             var getRentalDetails = _rentalDal.GetRentDetils();
             return new SuccessDataResult<List<RentDetailDto>>(getRentalDetails);
         }
