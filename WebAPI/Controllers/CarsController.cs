@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetCarDetails()
         {
-            var result = _carService.GetAll();
+            var result = _carService.GetCarDetails();
 
             if (!result.Success)
                 return BadRequest(result);
@@ -35,17 +35,6 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int id)
         {
             var result = _carService.GetById(id);
-
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
-        [HttpGet("getcardetails")]
-        public IActionResult GetCarDetails()
-        {
-            var result = _carService.GetCarDetails();
 
             if (!result.Success)
                 return BadRequest(result);
