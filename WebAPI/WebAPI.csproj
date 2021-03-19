@@ -4,6 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\Uploads\Images\CarImages\21140428656088bed-c523-4520-a3ed-0be254b54956.jpg" />
+    <Content Remove="wwwroot\Uploads\Images\CarImages\2150169356665f494-3059-44e6-a2b7-d39d917b2e80.jpg" />
+    <Content Remove="wwwroot\Uploads\Images\CarImages\2151409425f4e1a75-543a-4a5c-b4ff-555b56ea936f.jpg" />
+    <Content Remove="wwwroot\Uploads\Images\CarImages\215333976e60a87c7-9b31-4d41-ad55-1997e5689d39.jpg" />
+    <Content Remove="wwwroot\Uploads\Images\CarImages\default-image.jpg" />
+  </ItemGroup>
+
   <ItemGroup>    
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
@@ -14,6 +22,14 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Uploads\Images\CarImages\21140428656088bed-c523-4520-a3ed-0be254b54956.jpg" />
+    <None Include="wwwroot\Uploads\Images\CarImages\2150169356665f494-3059-44e6-a2b7-d39d917b2e80.jpg" />
+    <None Include="wwwroot\Uploads\Images\CarImages\2151409425f4e1a75-543a-4a5c-b4ff-555b56ea936f.jpg" />
+    <None Include="wwwroot\Uploads\Images\CarImages\215333976e60a87c7-9b31-4d41-ad55-1997e5689d39.jpg" />
+    <None Include="wwwroot\Uploads\Images\CarImages\default-image.jpg" />
   </ItemGroup>
 
 

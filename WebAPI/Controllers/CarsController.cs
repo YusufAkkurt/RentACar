@@ -1,11 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -21,6 +16,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetAll()
+        {
+            var result = _carService.GetAll();
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-car-details")]
         public IActionResult GetCarDetails()
         {
             var result = _carService.GetCarDetails();
@@ -31,10 +37,32 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("get-by-id")]
         public IActionResult GetById(int id)
         {
             var result = _carService.GetById(id);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-cars-by-brandid")]
+        public IActionResult GetCarsByBrandId(int brandId)
+        {
+            var result = _carService.GetCarsByBrandId(brandId);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-cars-by-colorid")]
+        public IActionResult GetCarsByColorId(int colorId)
+        {
+            var result = _carService.GetCarsByColorId(colorId);
 
             if (!result.Success)
                 return BadRequest(result);
@@ -53,7 +81,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("updatetransactionaloperation")]
+        [HttpPost("update-transactional-operation")]
         public IActionResult UpdateTransactionalOperation(Car car)
         {
             var result = _carService.UpdateTransactionalOperation(car);

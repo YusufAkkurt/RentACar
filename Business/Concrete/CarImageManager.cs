@@ -3,8 +3,8 @@ using Business.Constants;
 using Core.Utilities.BusinessRules;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
+using Core.Utilities.Uploaders;
 using DataAccess.Abstract;
-using DataAccess.Uploads;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -53,6 +53,7 @@ namespace Business.Concrete
         public IDataResult<List<CarImage>> GetAll()
         {
             var getAll = _carImageDal.GetAll();
+
             return new SuccessDataResult<List<CarImage>>(getAll);
         }
 
@@ -63,7 +64,7 @@ namespace Business.Concrete
             if (getListByCarId.Count > 0)
                 return new SuccessDataResult<List<CarImage>>(getListByCarId);
 
-            var path = PathName.CarDefaultImages;
+            var path = PathNames.CarDefaultImages;
             var defaultImage = new List<CarImage> { new CarImage { ImagePath = path } };
 
             return new SuccessDataResult<List<CarImage>>(defaultImage);

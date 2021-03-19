@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Uploads
+namespace Core.Utilities.Uploaders
 {
     public class UploadPathFounder
     {
@@ -13,14 +11,14 @@ namespace DataAccess.Uploads
         {
             var getExtension = Path.GetExtension(imageFile.FileName).ToLower();
             var imageName = DateTime.Now.ToString("yymmssfff") + Guid.NewGuid() + getExtension;
-            var imagePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()) + PathName.CarImages, imageName);
+            var imagePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()) + PathNames.AddCarImage, imageName);
 
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
-               await imageFile.CopyToAsync(fileStream);
+                await imageFile.CopyToAsync(fileStream);
             }
 
-            string imagePathAndName = PathName.CarImages + "\\" + imageName;
+            string imagePathAndName = PathNames.CarImages + "\\" + imageName;
 
             return imagePathAndName;
         }

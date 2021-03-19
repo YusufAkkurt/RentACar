@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IO;
 
 namespace WebAPI.Controllers
 {
@@ -26,7 +28,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("get-by-id")]
         public IActionResult GetById(int id)
         {
             var result = _carImageService.GetById(id);
@@ -37,11 +39,10 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getlistbycarid")]
-        public IActionResult GetListByCarId(int id)
+        [HttpGet("get-list-by-carid")]
+        public IActionResult GetListByCarId(int carId)
         {
-            var result = _carImageService.GetListByCarId(id);
-
+            var result = _carImageService.GetListByCarId(carId);
             if (!result.Success)
                 return BadRequest(result);
 
