@@ -40,6 +40,11 @@ namespace Business.Constants
         public static string CarImageUpdated = "Araba resmi güncelleme işlemi başarılı";
         public static string CarLimitExceded = "Araba'nın eklebilecek resim limitine ulaşıldı";
 
+        public static string CardAdded = "Kart bilgileri kaydedildi";
+        public static string CardDeleted = "Kart bilgileri silindi";
+        public static string CardUpdated = "Kart bilgileri güncellendi";
+        public static string CardAlreadyExists = "Kart daha önceden kaydedilmiş";
+
         public static string AuthorizationDenied = "Yetkiniz yok";
 
         public static string UserNotFound = "Kullanıcı bulunamadı";

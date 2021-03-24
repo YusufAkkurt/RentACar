@@ -57,16 +57,19 @@ namespace Business.Concrete
 
         public IDataResult<Rental> GetById(int rentalId)
         {
-            System.Threading.Thread.Sleep(2000);
-            var getById = _rentalDal.Get(u => u.Id == rentalId);
+            var getById = _rentalDal.Get(r => r.Id == rentalId);
             return new SuccessDataResult<Rental>(getById);
         }
 
+        public IDataResult<List<Rental>> GetRentalByCarId(int carId)
+        {
+            var getRentalByCarId = _rentalDal.GetAll(rental => rental.CarId == carId);
+            return new SuccessDataResult<List<Rental>>(getRentalByCarId);
+        }
+
         [CacheAspect]
-        [PerformanceAspect(3)]
         public IDataResult<List<RentDetailDto>> GetRentDetails()
         {
-            System.Threading.Thread.Sleep(3000);
             var getRentalDetails = _rentalDal.GetRentDetils();
             return new SuccessDataResult<List<RentDetailDto>>(getRentalDetails);
         }
