@@ -13,7 +13,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(user => user.PasswordSalt).NotEmpty();
 
             RuleFor(user => user.Email).NotEmpty();
-            RuleFor(user => user.Email).EmailAddress();
         }
     }
 }
