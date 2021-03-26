@@ -1,12 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
+using Entities.Concrete;
 using Entities.DTOs;
 
 namespace Business.Concrete
@@ -15,14 +17,17 @@ namespace Business.Concrete
     {
         private readonly IUserService _userService;
         private readonly ITokenHelper _tokenHelper;
+        private readonly ICustomerService _customerService;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, ICustomerService customerService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _customerService = customerService;
         }
 
         [ValidationAspect(typeof(UserRegisterValidator))]
+        [TransactionScopeAspect]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
@@ -39,6 +44,16 @@ namespace Business.Concrete
             };
 
             _userService.Add(user);
+            var lastUser = _userService.GetLastUser();
+
+            var customer = new Customer
+            {
+                UserId = lastUser.Data.Id,
+                CompanyName = userForRegisterDto.CompanyName
+            };
+
+            _customerService.Add(customer);
+
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 

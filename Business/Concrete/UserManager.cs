@@ -7,6 +7,7 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Concrete
 {
@@ -56,6 +57,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(getClaims);
         }
 
+        public IDataResult<User> GetLastUser()
+        {
+            var lastUser = _userDal.GetAll().LastOrDefault();
+            return new SuccessDataResult<User>(lastUser);
+        }
 
         public IResult Update(User user)
         {
