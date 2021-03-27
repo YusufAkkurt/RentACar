@@ -31,7 +31,7 @@ namespace Business.Concrete
             var rentalledCars = _rentalDal.GetAll(
                 r => r.CarId == rental.CarId && (
                 r.ReturnDate == null || 
-                r.ReturnDate > DateTime.Now)).Any();
+                r.ReturnDate < DateTime.Now)).Any();
 
             if (rentalledCars)
                 return new ErrorResult(Messages.CarIsStillRentalled);
