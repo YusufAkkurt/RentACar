@@ -29,7 +29,8 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  Description = car.Description,
                                  ColorName = color.Name,
                                  ModelYear = car.ModelYear,
-                                 DailyPrice = car.DailyPrice
+                                 DailyPrice = car.DailyPrice,
+                                 FindexPoint = car.FindexPoint
                              };
 
                 return result.SingleOrDefault(filter);
@@ -54,7 +55,8 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  Description = car.Description,
                                  ColorName = color.Name,
                                  ModelYear = car.ModelYear,
-                                 DailyPrice = car.DailyPrice
+                                 DailyPrice = car.DailyPrice,
+                                 FindexPoint = car.FindexPoint
                              };
 
                 return filter == null 

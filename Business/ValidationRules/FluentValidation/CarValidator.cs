@@ -19,6 +19,9 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(car => car.Description).NotEmpty();
             RuleFor(car => car.Description).MinimumLength(2);
+
+            RuleFor(car => car.FindexPoint).GreaterThanOrEqualTo(0);
+            RuleFor(car => car.FindexPoint).LessThanOrEqualTo(1900);
         }
     }
 }

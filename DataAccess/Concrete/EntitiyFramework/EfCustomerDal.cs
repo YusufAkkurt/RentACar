@@ -25,7 +25,8 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,
-                                 CompanyName = customer.CompanyName
+                                 CompanyName = customer.CompanyName,
+                                 FindexPoint = (int)customer.FindexPoint
                              };
 
                 return result.SingleOrDefault(filter);
@@ -46,7 +47,8 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,
-                                 CompanyName = customer.CompanyName
+                                 CompanyName = customer.CompanyName,
+                                 FindexPoint = (int)customer.FindexPoint
                              };
 
                 return result.ToList();

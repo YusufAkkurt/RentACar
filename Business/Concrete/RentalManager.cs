@@ -2,8 +2,8 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
-using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.BusinessRules;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -17,24 +17,26 @@ namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
-        readonly IRentalDal _rentalDal;
+        private readonly IRentalDal _rentalDal;
+        private readonly ICarService _carService;
+        private readonly ICustomerService _customerService;
 
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, ICarService carService, ICustomerService customerService)
         {
             _rentalDal = rentalDal;
+            _carService = carService;
+            _customerService = customerService;
         }
 
         [ValidationAspect(typeof(RentalValidator))]
         [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rental)
         {
-            var rentalledCars = _rentalDal.GetAll(
-                r => r.CarId == rental.CarId && (
-                r.ReturnDate == null || 
-                r.ReturnDate < DateTime.Now)).Any();
+            var result = BusinessRule.Run(CarRentedCheck(rental),
+                FindeksScoreCheck(rental.CustomerId, rental.CarId));
 
-            if (rentalledCars)
-                return new ErrorResult(Messages.CarIsStillRentalled);
+            if (result != null)
+                return result;
 
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
@@ -80,6 +82,34 @@ namespace Business.Concrete
         {
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
+        }
+
+        private IResult CarRentedCheck(Rental rental)
+        {
+            var rentalledCars = _rentalDal.GetAll(
+                r => r.CarId == rental.CarId && (
+                r.ReturnDate == null ||
+                r.ReturnDate < DateTime.Now)).Any();
+
+            if (rentalledCars)
+                return new ErrorResult(Messages.CarIsStillRentalled);
+
+            return new SuccessResult();
+        }
+
+        private IResult FindeksScoreCheck(int customerId, int carId)
+        {
+            var customerFindexPoint = _customerService.GetById(customerId).Data.FindexPoint;
+
+            if (customerFindexPoint == 0)
+                return new ErrorResult(Messages.CustomerFindexPointIsZero);
+
+            var carFindexPoint = _carService.GetById(carId).Data.FindexPoint;
+
+            if (customerFindexPoint < carFindexPoint)
+                return new ErrorResult(Messages.CustomerScoreIsInsufficient);
+
+            return new SuccessResult();
         }
     }
 }
