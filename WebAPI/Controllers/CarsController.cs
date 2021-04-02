@@ -26,17 +26,6 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-car-details")]
-        public IActionResult GetCarDetails()
-        {
-            var result = _carService.GetCarDetails();
-
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
         [HttpGet("get-by-id")]
         public IActionResult GetById(int id)
         {
@@ -48,21 +37,10 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-cars-by-brandid")]
-        public IActionResult GetCarsByBrandId(int brandId)
+        [HttpGet("get-details")]
+        public IActionResult GetCarDetails()
         {
-            var result = _carService.GetCarsByBrandId(brandId);
-
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
-        [HttpGet("get-cars-by-colorid")]
-        public IActionResult GetCarsByColorId(int colorId)
-        {
-            var result = _carService.GetCarsByColorId(colorId);
+            var result = _carService.GetCarDetails();
 
             if (!result.Success)
                 return BadRequest(result);
@@ -74,17 +52,6 @@ namespace WebAPI.Controllers
         public IActionResult Add(Car car)
         {
             var result = _carService.Add(car);
-
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
-        [HttpPost("update-transactional-operation")]
-        public IActionResult UpdateTransactionalOperation(Car car)
-        {
-            var result = _carService.UpdateTransactionalOperation(car);
 
             if (!result.Success)
                 return BadRequest(result);
