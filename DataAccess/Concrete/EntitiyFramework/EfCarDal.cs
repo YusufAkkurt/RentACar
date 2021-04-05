@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Uploaders;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -30,7 +31,18 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  ColorName = color.Name,
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
-                                 FindexPoint = car.FindexPoint
+                                 FindexPoint = car.FindexPoint,
+                                 CarImages = (from carImage in context.CarImages where car.Id == carImage.CarId select carImage).ToList().Count > 0
+                                 ? (from carImage in context.CarImages where car.Id == carImage.CarId select carImage).ToList()
+                                 : new List<CarImage> 
+                                 { 
+                                     new CarImage 
+                                     { 
+                                         CarId = car.Id,
+                                         Date = DateTime.Now,
+                                         ImagePath = PathNames.CarDefaultImages
+                                     } 
+                                 }
                              };
 
                 return filter == null
