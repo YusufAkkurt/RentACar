@@ -21,6 +21,7 @@ namespace DataAccess.Concrete.EntitiyFramework
                              on car.BrandId equals brand.Id
                              join color in context.Colors
                              on car.ColorId equals color.Id
+                             let images = (from carImage in context.CarImages where car.Id == carImage.CarId select carImage).ToList()
                              select new CarDetailDto
                              {
                                  Id = car.Id,
@@ -32,17 +33,7 @@ namespace DataAccess.Concrete.EntitiyFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  FindexPoint = car.FindexPoint,
-                                 CarImages = (from carImage in context.CarImages where car.Id == carImage.CarId select carImage).ToList().Count > 0
-                                 ? (from carImage in context.CarImages where car.Id == carImage.CarId select carImage).ToList()
-                                 : new List<CarImage> 
-                                 { 
-                                     new CarImage 
-                                     { 
-                                         CarId = car.Id,
-                                         Date = DateTime.Now,
-                                         ImagePath = PathNames.CarDefaultImages
-                                     } 
-                                 }
+                                 CarImages = images.Count > 0 ? images : new List<CarImage>{ new CarImage { ImagePath = PathNames.CarDefaultImages } }
                              };
 
                 return filter == null
