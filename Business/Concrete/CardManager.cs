@@ -22,7 +22,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CardValidator))]
         public IResult Add(Card card)
         {
-            if (CheckCardNumber(card.CardNumber))
+            if (CheckCard(card))
                 return new SuccessResult(Messages.CardAlreadyExists);
 
             _cardDal.Add(card);
@@ -53,11 +53,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CardUpdated);
         }
 
-        public bool CheckCardNumber(string cardNumber)
+        public bool CheckCard(Card checkCard)
         {
-            var getByCardNumber = _cardDal.Get(card => card.CardNumber == cardNumber);
+            var card = _cardDal.Get(c => c.CustomerId == checkCard.CustomerId);
 
-            if (getByCardNumber != null)
+            if (card == null)
+                return false;
+
+            if (card.CardNumber == checkCard.CardNumber)
                 return true;
 
             return false;
